@@ -11,4 +11,4 @@ numpy (available by running `sudo apt-get install python3-numpy`)
 3. Run the command `sudo python3 rFE-IDF.py`.
 
 ## Running result
-![running result]([/assets/img/philly-magic-garden.jpg](https://github.com/rFE-IDF-research/rFE-IDF/blob/main/running%20result.png)https://github.com/rFE-IDF-research/rFE-IDF/blob/main/running%20result.png "Running Result")
+![running result](https://github.com/rFE-IDF-research/rFE-IDF/blob/main/running%20result.png "Running Result")
