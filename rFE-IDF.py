@@ -7,11 +7,12 @@ from fhipe import ipe
 from numpy import random
 
 n = 10 # the dimension of vector H(r) and k
+ell = 6 # the message length
 
 q = 65537 # the value of parameter q
 p = 257 # the value of parameter p
 
-m = [10,34,54,81,121,243] # the input message
+m = [random.randint(0, 255) for i in range(ell)] # the input message
 
 def hash(r):
 	"""
@@ -103,22 +104,27 @@ def decrypt(pp, ct, sk):
 	(c, h, r) = ct
 	(k1, g) = sk
 	m_prime = []
+	total = 0
 	for i in range(len(m)):
 		dec_a = time.time()
 		prod = ipe.decrypt_new(pp, g, h[i], q*q*n) # invoke FPL-FE decryption algorithm
 		dec_b = time.time()
 		KHPRF2 = round((float(p)/float(q))*(prod % q)) # rounding the decrypted result to domain Z_p
 		m_prime.append((c[i] - KHPRF(k1,r[i]) - KHPRF2) % p)
+		total = total + (dec_b-dec_a)
 		print("The " + str(i) + "-th item is decrypted: " + str(prod) + ", and the decryption time is: " + str(dec_b-dec_a))
+	print("Total decryption time: " + str(total))
 	return m_prime
 	
-	
+
+setup_a = time.time()
 (pp, mk) = setup()
-print("The input message: " + str(m))
+setup_b = time.time()
+print("The input message: " + str(m) + ", and the setup time is: " + str(setup_b-setup_a))
 enc_a = time.time()
 ct = encrypt(pp,mk,m)
-enc_b = time.time()
 (c, h, r) = ct
+enc_b = time.time()
 print("The encrypted message: " + str(c) + ", and the encryption time is: " + str(enc_b-enc_a))
 keygen_a = time.time()
 sk = keygen(mk)
