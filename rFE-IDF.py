@@ -6,7 +6,7 @@ import math, random, time, hashlib, numpy as np
 from fhipe import ipe
 from numpy import random
 
-n = 10 # the dimension of vector H(r) and k
+n = 16 # the dimension of vector H(r) and k
 ell = 6 # the message length
 
 q = 65537 # the value of parameter q
@@ -16,11 +16,11 @@ m = [random.randint(0, 255) for i in range(ell)] # the input message
 
 def hash(r):
 	"""
-	Solve hash value of r using SHA160 algorithm
+	Solve hash value of r using SHA256 algorithm
 	"""
 	string_r = str(r).encode('utf-8')
 
-	r_hash_object = hashlib.sha1(string_r)
+	r_hash_object = hashlib.sha256(string_r)
 	r_hash = r_hash_object.hexdigest()
   
 	r_arr = []
@@ -28,7 +28,7 @@ def hash(r):
 
 	for i in range(len(r_hash)):
 		r_s += r_hash[i]
-		if (i+1)%4 == 0: # partition a SHA160 digest into a vector of length 10
+		if (i+1)%4 == 0: # partition a SHA256 digest into a vector of length 16
 			int_hex = int(r_s, 16)
 			r_arr.append(int_hex)
 			r_s = ""
@@ -73,7 +73,7 @@ def encrypt(pp,mk,m):
 		
 	c = []
 	h = []
-	
+
 	for i in range(len(m)):
 		c.append((m[i] + KHPRF(k,r[i])) % p)
 		e = random.normal(loc=0, scale=2, size=(1,1)) # sample a Gaussian noise with standard deviation equals 2
@@ -113,7 +113,6 @@ def decrypt(pp, ct, sk):
 		m_prime.append((c[i] - KHPRF(k1,r[i]) - KHPRF2) % p)
 		total = total + (dec_b-dec_a)
 		print("The " + str(i) + "-th item is decrypted: " + str(prod) + ", and the decryption time is: " + str(dec_b-dec_a))
-	print("Total decryption time: " + str(total))
 	return m_prime
 	
 
