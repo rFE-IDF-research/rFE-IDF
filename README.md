@@ -1,5 +1,5 @@
 # rFE-IDF
-This is a demo for rFE-IDF that is used to evaluate its performance.
+This is the source code of rFE-IDF that is used to evaluate its performance.
 
 ## Library required
 fhipe (available [here](https://github.com/kevinlewi/fhipe)) <br>
