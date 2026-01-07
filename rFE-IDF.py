@@ -76,7 +76,7 @@ def encrypt(pp,mk,m):
 
 	for i in range(len(m)):
 		c.append((m[i] + KHPRF(k,r[i])) % p)
-		e = random.normal(loc=0, scale=2, size=(1,1)) # sample a Gaussian noise with standard deviation equals 2
+		e = random.normal(loc=0, scale=1, size=(1,1)) # sample a Gaussian noise with standard deviation equals 1
 		r_arr = hash(r[i])
 		r_arr.append(round(float(e)))
 		r_arr.append(0)
